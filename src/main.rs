@@ -29,8 +29,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let fichier: Fichier = serde_json::from_str(&contenu)?;
 
-    let anims: &HashMap<String, Anim> = &fichier.variants; // default anim
-    let mut anim: &Anim = &fichier.variants["le_chat"];
+    let anims: &HashMap<String, Anim> = &fichier.variants;
+    let mut anim: &Anim = &fichier.variants["le_chat"]; // set default anim
 
     loop {
         for frame in anim.frames.iter() {
@@ -44,11 +44,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if let Event::Key(key) = read()? {
                     match key.code {
                         KeyCode::Char('g') => {
-                            anim = &fichier.variants["le_chonk"];
+                            anim = &anims.get("le_chonk").unwrap();
                             break;
                         }
                         KeyCode::Char('c') => {
-                            anim = &fichier.variants["le_chat"];
+                            anim = &anims.get("le_chat").unwrap();
                             break;
                         }
                         _ => {}

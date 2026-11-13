@@ -7,11 +7,12 @@ use std::time::Duration;
 use std::{thread, time};
 use std::io::stdout;
 use crossterm::{cursor, execute, terminal};
+use crossterm::cursor::MoveTo;
 
 #[derive(serde::Deserialize, PartialEq)]
 struct Anim {
-    cols: u8,
-    rows: u8,
+    cols: u16,
+    rows: u16,
     frame_count: u32,
     frames: Vec<Vec<String>>,
 }
@@ -40,8 +41,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     loop {
         for frame in anim.frames.iter() {
             clearscreen::clear().unwrap();
+            let (w, h) = terminal::size()?;
+            let mut i = 0;
             for row in frame.iter() {
-                println!("{row}")
+                execute!(stdout(), MoveTo((w / 2) - (anim.cols / 2), ((h / 2) - (anim.rows / 2)) + i))?;
+                println!("{row}");
+                i += 1;
             }
 
             thread::sleep(time::Duration::from_millis(300));

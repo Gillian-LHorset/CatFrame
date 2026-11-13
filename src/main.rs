@@ -56,6 +56,9 @@ fn main() -> Result<(), Box<dyn Error>> {
                             }
                         }
                         KeyCode::Char('c') => {
+                            if key.code == KeyCode::Char('c') && key.modifiers.contains(KeyModifiers::CONTROL) {
+                                return Ok(());
+                            }
                             if anim != anims.get("le_chat").unwrap() {
                                 anim = &anims.get("le_chat").unwrap();
                                 break;

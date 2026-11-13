@@ -1,7 +1,10 @@
 [package]
 name = "CatFrame"
-version = "0.1.0"
-edition = "2024"
+version = "1.0.0"
+description = "A tiny terminal application that plays ASCII-art cat animations, frame by frame, centered in your terminal. The animation come from Mistral Vibe."
+repository = "https://github.com/Gillian-LHorset/CatFrame"
+license = "MIT"
+readme = "README.md"
 
 [[bin]]
 name = "lechat"

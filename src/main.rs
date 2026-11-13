@@ -61,6 +61,11 @@ fn main() -> Result<(), Box<dyn Error>> {
                         }
                         KeyCode::Char('c') => {
                             if key.code == KeyCode::Char('c') && key.modifiers.contains(KeyModifiers::CONTROL) {
+                                terminal::disable_raw_mode()?;
+                                execute!(stdout(), cursor::Show)?;
+
+                                clearscreen::clear().unwrap();
+
                                 return Ok(());
                             }
                             if anim != anims.get("le_chat").unwrap() {

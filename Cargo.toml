@@ -5,6 +5,7 @@ description = "A tiny terminal application that plays ASCII-art cat animations, 
 repository = "https://github.com/Gillian-LHorset/CatFrame"
 license = "MIT"
 readme = "README.md"
+edition = "2024"
 
 [[bin]]
 name = "lechat"

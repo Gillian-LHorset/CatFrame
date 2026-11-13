@@ -1,7 +1,7 @@
-use crossterm::event::{Event, KeyCode, KeyEventKind, KeyModifiers, poll, read};
+use crossterm;
+use crossterm::event::{Event, KeyCode, KeyModifiers, poll, read};
 use std::collections::HashMap;
 use std::error::Error;
-use std::fs;
 use std::time::Duration;
 use std::{thread, time};
 use std::io::stdout;

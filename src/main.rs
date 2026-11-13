@@ -1,6 +1,9 @@
-use std::fs;
-use std::error::Error;
+use crossterm;
+use crossterm::event::{Event, KeyCode, KeyEventKind, KeyModifiers, poll, read};
 use std::collections::HashMap;
+use std::error::Error;
+use std::fs;
+use std::time::Duration;
 use std::{thread, time};
 
 #[derive(serde::Deserialize)]
@@ -8,7 +11,7 @@ struct Anim {
     cols: u8,
     rows: u8,
     frame_count: u32,
-    frames: Vec<Vec<String>>
+    frames: Vec<Vec<String>>,
 }
 
 #[derive(serde::Deserialize)]
@@ -17,18 +20,42 @@ struct Fichier {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let contenu :String = fs::read_to_string("src/ressources/LeChat-annimation.json")?;
-    let fichier :Fichier = serde_json::from_str(&contenu)?;
-    let anim :&Anim = &fichier.variants["le_chat"]; // default anim
+    let contenu: String = fs::read_to_string("src/ressources/LeChat-annimation.json")?;
 
-    while true {
+    if contenu.is_empty() || contenu.len() == 0 {
+        println!("The json is empty.");
+        return Ok(());
+    }
+
+    let fichier: Fichier = serde_json::from_str(&contenu)?;
+
+    let anims: &HashMap<String, Anim> = &fichier.variants; // default anim
+    let mut anim: &Anim = &fichier.variants["le_chat"];
+
+    loop {
         for frame in anim.frames.iter() {
             for row in frame.iter() {
                 println!("{row}")
             }
+
             thread::sleep(time::Duration::from_millis(300));
+
+            if poll(Duration::from_millis(100))? {
+                if let Event::Key(key) = read()? {
+                    match key.code {
+                        KeyCode::Char('g') => {
+                            anim = &fichier.variants["le_chonk"];
+                            break;
+                        }
+                        KeyCode::Char('c') => {
+                            anim = &fichier.variants["le_chat"];
+                            break;
+                        }
+                        _ => {}
+                    }
+                }
+            }
         }
     }
-
     Ok(())
 }

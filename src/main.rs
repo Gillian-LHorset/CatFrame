@@ -1,4 +1,3 @@
-use crossterm;
 use crossterm::event::{Event, KeyCode, KeyEventKind, KeyModifiers, poll, read};
 use std::collections::HashMap;
 use std::error::Error;
@@ -75,5 +74,4 @@ fn main() -> Result<(), Box<dyn Error>> {
             }
         }
     }
-    Ok(())
 }

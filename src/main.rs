@@ -6,7 +6,7 @@ use std::fs;
 use std::time::Duration;
 use std::{thread, time};
 
-#[derive(serde::Deserialize)]
+#[derive(serde::Deserialize, PartialEq)]
 struct Anim {
     cols: u8,
     rows: u8,
@@ -44,12 +44,16 @@ fn main() -> Result<(), Box<dyn Error>> {
                 if let Event::Key(key) = read()? {
                     match key.code {
                         KeyCode::Char('g') => {
-                            anim = &anims.get("le_chonk").unwrap();
-                            break;
+                            if anim != anims.get("le_chonk").unwrap() {
+                                anim = &anims.get("le_chonk").unwrap();
+                                break;
+                            }
                         }
                         KeyCode::Char('c') => {
-                            anim = &anims.get("le_chat").unwrap();
-                            break;
+                            if anim != anims.get("le_chat").unwrap() {
+                                anim = &anims.get("le_chat").unwrap();
+                                break;
+                            }
                         }
                         _ => {}
                     }

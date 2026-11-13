@@ -13,6 +13,15 @@ CatFrame embeds its animations as JSON, deserializes them with `serde`, and rend
 
 ## Installation
 
+Prérequis : Rust via rustup `(https://rustup.rs)`
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+cargo install CatFrame
+lechat
+```
+
 From crates.io:
 
 ```bash

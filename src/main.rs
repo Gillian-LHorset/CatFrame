@@ -5,6 +5,8 @@ use std::error::Error;
 use std::fs;
 use std::time::Duration;
 use std::{thread, time};
+use std::io::stdout;
+use crossterm::{cursor, execute, terminal};
 
 #[derive(serde::Deserialize, PartialEq)]
 struct Anim {
@@ -20,20 +22,24 @@ struct Fichier {
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
-    let contenu: String = fs::read_to_string("src/ressources/LeChat-annimation.json")?;
+    terminal::enable_raw_mode()?;
+    execute!(stdout(), cursor::Hide)?;
 
-    if contenu.is_empty() || contenu.len() == 0 {
+    const ANIMS_JSON: &str = include_str!("ressources/LeChat-annimation.json");
+
+    if ANIMS_JSON.is_empty() || ANIMS_JSON.len() == 0 {
         println!("The json is empty.");
         return Ok(());
     }
 
-    let fichier: Fichier = serde_json::from_str(&contenu)?;
+    let fichier: Fichier = serde_json::from_str(&ANIMS_JSON)?;
 
     let anims: &HashMap<String, Anim> = &fichier.variants;
     let mut anim: &Anim = &fichier.variants["le_chat"]; // set default anim
 
     loop {
         for frame in anim.frames.iter() {
+            clearscreen::clear().unwrap();
             for row in frame.iter() {
                 println!("{row}")
             }
